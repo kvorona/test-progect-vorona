@@ -1,6 +1,10 @@
 import random
 import string
 
+from selenium.webdriver.chrome.webdriver import WebDriver
+
+from constants.base import BaseConstants
+
 
 def random_int():
     return str(random.randint(333333, 778888))
@@ -18,3 +22,10 @@ class User:
         self.email = email if email else f"email{random_int()}@email.com"
         self.phone = phone if phone else "0999999999"
         self.password = password if password else f"Password{random_int()}"
+
+
+def create_driver():
+    driver = WebDriver(executable_path=BaseConstants.DRIVER_PATH)
+    driver.implicitly_wait(1)
+    driver.get(BaseConstants.BASE_URL)
+    return driver

@@ -38,3 +38,4 @@ class BasePage:
             return True
         except (TimeoutError, NoSuchElementException):
             return False
+

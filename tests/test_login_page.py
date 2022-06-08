@@ -1,25 +1,19 @@
 import pytest
-from selenium.webdriver.chrome.webdriver import WebDriver
-from constants.base import BaseConstants
-from pages.utils import User
+from pages.utils import User, create_driver
 
 
 class TestRegistrationPage:
 
     @pytest.fixture(scope="function")
     def open_base_url(self):
-        driver = WebDriver(executable_path=BaseConstants.DRIVER_PATH)
-        driver.implicitly_wait(1)
-        driver.get(BaseConstants.BASE_URL)
+        driver = create_driver()
         from pages.registration_page import RegistrationPage
         yield RegistrationPage(driver)
         driver.close()
 
     @pytest.fixture(scope="function")
     def open_authorization_url(self):
-        driver = WebDriver(executable_path=BaseConstants.DRIVER_PATH)
-        driver.implicitly_wait(1)
-        driver.get(BaseConstants.BASE_URL)
+        driver = create_driver()
         from pages.authorization_page import AuthorizationPage
         yield AuthorizationPage(driver)
         driver.close()

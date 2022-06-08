@@ -44,7 +44,6 @@ class RegistrationPage(BasePage):
 
     def logout_user(self):
         self.click(self.constants.USER_AVATAR_XPATH)
-        # sleep(2)
         self.click(self.constants.LOGOUT_XPATH)
 
     def go_to_registration_page(self):
