@@ -1,5 +1,3 @@
-from time import sleep
-
 from constants.registration_page import RegistrationPageConstants
 from pages.base_page import BasePage
 
@@ -48,3 +46,14 @@ class RegistrationPage(BasePage):
 
     def go_to_registration_page(self):
         self.click(self.constants.SING_UP_XPATH)
+        return RegistrationPage(self.driver)
+
+    def registered_user(self, user):
+        self.click(self.constants.SING_UP_XPATH)
+        self.fill_field(xpath=self.constants.FIRST_NAME_FIELD_XPATH, value=user.first_name)
+        self.fill_field(xpath=self.constants.LAST_NAME_FIELD_XPATH, value=user.last_name)
+        self.fill_field(xpath=self.constants.EMAIL_FIELD_XPATH, value=user.email)
+        self.fill_field_strokes(xpath=self.constants.PHONE_FIELD_XPATH, value=user.phone)
+        self.fill_field(xpath=self.constants.PASSWORD_FIELD_XPATH, value=user.password)
+        self.click(self.constants.SING_UP_BUTTON_XPATH)
+        self.click(self.constants.SING_UP_BUTTON_XPATH)

@@ -5,6 +5,10 @@ from pages.utils import User, create_driver
 class TestRegistrationPage:
 
     @pytest.fixture(scope="function")
+    def random_user(self):
+        return User()
+
+    @pytest.fixture(scope="function")
     def open_base_url(self):
         driver = create_driver()
         from pages.registration_page import RegistrationPage
@@ -19,21 +23,15 @@ class TestRegistrationPage:
         driver.close()
 
     @pytest.fixture(scope="function")
-    def random_user(self):
-        return User()
-
-    @pytest.fixture(scope="function")
-    def logout(self, open_base_url):
-        yield
-        open_base_url.logout_user()
-
-    @pytest.fixture(scope="function")
-    def register_user(self, open_base_url, random_user):
-        open_base_url.go_to_registration_page()
-        open_base_url.fill_field_for_registration_form(random_user)
-        open_base_url.click_on_sign_up_button()
+    def registered_user(self, open_base_url, random_user):
+        open_base_url.registered_user(random_user)
         open_base_url.logout_user()
         return random_user
+
+    # @pytest.fixture(scope="function")
+    # def logout(self, open_base_url):
+    #     yield
+    #     open_base_url.logout_user()
 
     def test_registration_with_empty_field(self, open_base_url):
         """
@@ -57,7 +55,6 @@ class TestRegistrationPage:
         open_base_url.empty_field_for_registration_form()
         open_base_url.verify_error_message_sign_up()
 
-    @pytest.mark.usefixtures("logout")
     def test_registration(self, open_base_url, random_user):
         """
         Pre-condition:
@@ -81,7 +78,7 @@ class TestRegistrationPage:
         open_base_url.click_on_sign_up_button()
         open_base_url.successful_message_sign_up()
 
-    def test_authorization_with_correct_value(self, open_authorization_url, register_user):
+    def test_authorization_with_correct_value(self, open_authorization_url, registered_user):
         """
         Pre-condition:
         - Create driver
@@ -89,17 +86,13 @@ class TestRegistrationPage:
         - Open base page
         Steps:
         - Go to authorization page
-        - Fill field name
-        - Fill field surname
         - Fill field email
-        - Fill field phone
         - Fill field password
-        - Click "Sign up"
+        - Click "Sign in"
         Check:
         - Verify successfully sign in
         After test:
         - Close site
         """
-        open_authorization_url.go_to_authorization_page()
-        open_authorization_url.sign_in(register_user.email, register_user.password)
+        open_authorization_url.sign_in(registered_user.email, registered_user.password)
         open_authorization_url.successful_message_sign_in()

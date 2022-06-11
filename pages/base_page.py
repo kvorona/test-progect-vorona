@@ -1,6 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -39,3 +40,5 @@ class BasePage:
         except (TimeoutError, NoSuchElementException):
             return False
 
+    def wait_until_displayed(self, xpath):
+        return self.waiter.until(method=expected_conditions.visibility_of_element_located((By.XPATH, xpath)))
