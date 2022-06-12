@@ -28,11 +28,6 @@ class TestRegistrationPage:
         open_base_url.logout_user()
         return random_user
 
-    # @pytest.fixture(scope="function")
-    # def logout(self, open_base_url):
-    #     yield
-    #     open_base_url.logout_user()
-
     def test_registration_with_empty_field(self, open_base_url):
         """
         Pre-condition:
